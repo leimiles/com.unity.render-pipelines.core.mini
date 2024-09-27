@@ -5,6 +5,23 @@
 #pragma warning (disable : 3205) // conversion of larger type to smaller
 #endif
 
+/// Add WebGL RP Support By ZhuLei
+#ifndef WX_PERFORMANCE_MODE
+    #if (defined(SHADER_API_GLES) || defined(SHADER_API_GLES30) || defined(SHADER_API_GLES3))
+        #define WX_PERFORMANCE_MODE 1
+    #else
+        #define WX_PERFORMANCE_MODE 0
+    #endif
+    #ifndef SHADER_API_MOBILE
+        #define SHADER_API_MOBILE WX_PERFORMANCE_MODE
+    #else
+        #if !SHADER_API_MOBILE && WX_PERFORMANCE_MODE
+            #undef SHADER_API_MOBILE
+            #define SHADER_API_MOBILE WX_PERFORMANCE_MODE
+        #endif
+    #endif
+#endif
+
 // Convention:
 
 // Unity is Y up and left handed in world space
