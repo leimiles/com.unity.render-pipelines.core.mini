@@ -34,7 +34,7 @@ namespace UnityEngine.Rendering
         // Helper function to override the XR default layout using settings of new camera
         internal static void OverrideLayout(XRLayout layout, Camera camera)
         {
-#if ENABLE_VR && ENABLE_XR_MODULE
+#if ENABLE_VR && ENABLE_XR_MODULE && (!WX_PERFORMANCE_MODE || WX_PREVIEW_SCENE_MODE)
             if (enabled && running)
             {
                 var camProjMatrix = camera.projectionMatrix;

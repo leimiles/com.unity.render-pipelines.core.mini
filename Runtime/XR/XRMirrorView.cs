@@ -15,7 +15,7 @@ namespace UnityEngine.Experimental.Rendering
         static readonly int k_SRGBRead = Shader.PropertyToID("_SRGBRead");
         static readonly int k_SRGBWrite = Shader.PropertyToID("_SRGBWrite");
 
-#if ENABLE_VR && ENABLE_XR_MODULE
+#if ENABLE_VR && ENABLE_XR_MODULE && (!WX_PERFORMANCE_MODE || WX_PREVIEW_SCENE_MODE)
         internal static void RenderMirrorView(CommandBuffer cmd, Camera camera, Material mat, UnityEngine.XR.XRDisplaySubsystem display)
         {
             // XRTODO : remove this check when the Quest plugin is fixed

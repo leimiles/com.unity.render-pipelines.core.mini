@@ -72,7 +72,7 @@ namespace UnityEngine.Experimental.Rendering
         /// <param name="viewIndex"></param>
         public static void UpdateBuiltinShaderConstants(Matrix4x4 viewMatrix, Matrix4x4 projMatrix, bool renderIntoTexture, int viewIndex)
         {
-#if ENABLE_VR && ENABLE_XR_MODULE
+#if ENABLE_VR && ENABLE_XR_MODULE && (!WX_PERFORMANCE_MODE || WX_PREVIEW_SCENE_MODE)
             s_cameraProjMatrix[viewIndex] = projMatrix;
             s_viewMatrix[viewIndex] = viewMatrix;
             s_projMatrix[viewIndex] = GL.GetGPUProjectionMatrix(s_cameraProjMatrix[viewIndex], renderIntoTexture);
@@ -92,7 +92,7 @@ namespace UnityEngine.Experimental.Rendering
         /// <param name="cmd"></param>
         public static void SetBuiltinShaderConstants(CommandBuffer cmd)
         {
-#if ENABLE_VR && ENABLE_XR_MODULE
+#if ENABLE_VR && ENABLE_XR_MODULE && (!WX_PERFORMANCE_MODE || WX_PREVIEW_SCENE_MODE)
             cmd.SetGlobalMatrixArray(unity_StereoCameraProjection, s_cameraProjMatrix);
             cmd.SetGlobalMatrixArray(unity_StereoCameraInvProjection, s_invCameraProjMatrix);
             cmd.SetGlobalMatrixArray(unity_StereoMatrixV, s_viewMatrix);
@@ -115,7 +115,7 @@ namespace UnityEngine.Experimental.Rendering
         /// <param name="renderIntoTexture"></param>
         public static void Update(XRPass xrPass, CommandBuffer cmd, bool renderIntoTexture)
         {
-#if ENABLE_VR && ENABLE_XR_MODULE
+#if ENABLE_VR && ENABLE_XR_MODULE && (!WX_PERFORMANCE_MODE || WX_PREVIEW_SCENE_MODE)
             if (xrPass.enabled)
             {
                 cmd.SetViewProjectionMatrices(xrPass.GetViewMatrix(), xrPass.GetProjMatrix());

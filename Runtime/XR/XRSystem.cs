@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine.Rendering;
 
-#if ENABLE_VR && ENABLE_XR_MODULE
+#if ENABLE_VR && ENABLE_XR_MODULE && (!WX_PERFORMANCE_MODE || WX_PREVIEW_SCENE_MODE)
 using UnityEngine.XR;
 #endif
 
@@ -19,7 +19,7 @@ namespace UnityEngine.Experimental.Rendering
         // Delegate allocations of XRPass to the render pipeline
         static Func<XRPassCreateInfo, XRPass> s_PassAllocator = null;
 
-#if ENABLE_VR && ENABLE_XR_MODULE
+#if ENABLE_VR && ENABLE_XR_MODULE && (!WX_PERFORMANCE_MODE || WX_PREVIEW_SCENE_MODE)
         static List<XRDisplaySubsystem> s_DisplayList = new List<XRDisplaySubsystem>();
         static XRDisplaySubsystem s_Display;
 
@@ -47,7 +47,7 @@ namespace UnityEngine.Experimental.Rendering
         /// </summary>
         static public bool displayActive
         {
-#if ENABLE_VR && ENABLE_XR_MODULE
+#if ENABLE_VR && ENABLE_XR_MODULE && (!WX_PERFORMANCE_MODE || WX_PREVIEW_SCENE_MODE)
             get => (s_Display != null) ? s_Display.running : false;
 #else
             get => false;
@@ -112,7 +112,7 @@ namespace UnityEngine.Experimental.Rendering
 
             s_MSAASamples = msaaSamples;
 
-#if ENABLE_VR && ENABLE_XR_MODULE
+#if ENABLE_VR && ENABLE_XR_MODULE && (!WX_PERFORMANCE_MODE || WX_PREVIEW_SCENE_MODE)
             SubsystemManager.GetInstances(s_DisplayList);
 
             foreach (var display in s_DisplayList)
@@ -135,7 +135,7 @@ namespace UnityEngine.Experimental.Rendering
         /// <param name="renderScale">A value of 1.0f represents 100% of the original resolution.</param>
         public static void SetRenderScale(float renderScale)
         {
-#if ENABLE_VR && ENABLE_XR_MODULE
+#if ENABLE_VR && ENABLE_XR_MODULE && (!WX_PERFORMANCE_MODE || WX_PREVIEW_SCENE_MODE)
             SubsystemManager.GetInstances(s_DisplayList);
 
             foreach (var display in s_DisplayList)
@@ -178,7 +178,7 @@ namespace UnityEngine.Experimental.Rendering
         /// <param name="camera"></param>
         public static void RenderMirrorView(CommandBuffer cmd, Camera camera)
         {
-#if ENABLE_VR && ENABLE_XR_MODULE
+#if ENABLE_VR && ENABLE_XR_MODULE && (!WX_PERFORMANCE_MODE || WX_PREVIEW_SCENE_MODE)
             XRMirrorView.RenderMirrorView(cmd, camera, s_MirrorViewMaterial, s_Display);
 #endif
         }
@@ -204,7 +204,7 @@ namespace UnityEngine.Experimental.Rendering
         // Used by the render pipeline to communicate to the XR device the range of the depth buffer.
         internal static void SetDisplayZRange(float zNear, float zFar)
         {
-#if ENABLE_VR && ENABLE_XR_MODULE
+#if ENABLE_VR && ENABLE_XR_MODULE && (!WX_PERFORMANCE_MODE || WX_PREVIEW_SCENE_MODE)
             if (s_Display != null)
             {
                 s_Display.zNear = zNear;
@@ -231,7 +231,7 @@ namespace UnityEngine.Experimental.Rendering
 
         static void RefreshDeviceInfo()
         {
-#if ENABLE_VR && ENABLE_XR_MODULE
+#if ENABLE_VR && ENABLE_XR_MODULE && (!WX_PERFORMANCE_MODE || WX_PREVIEW_SCENE_MODE)
             SubsystemManager.GetInstances(s_DisplayList);
 
             if (s_DisplayList.Count > 0)
@@ -259,7 +259,7 @@ namespace UnityEngine.Experimental.Rendering
         // Setup the layout to use multi-pass or single-pass based on the runtime caps
         internal static void CreateDefaultLayout(Camera camera)
         {
-#if ENABLE_VR && ENABLE_XR_MODULE
+#if ENABLE_VR && ENABLE_XR_MODULE && (!WX_PERFORMANCE_MODE || WX_PREVIEW_SCENE_MODE)
             if (s_Display == null)
                 throw new NullReferenceException(nameof(s_Display));
 
@@ -302,7 +302,7 @@ namespace UnityEngine.Experimental.Rendering
         // Update the parameters of one pass with a different camera
         internal static void ReconfigurePass(XRPass xrPass, Camera camera)
         {
-#if ENABLE_VR && ENABLE_XR_MODULE
+#if ENABLE_VR && ENABLE_XR_MODULE && (!WX_PERFORMANCE_MODE || WX_PREVIEW_SCENE_MODE)
             if (xrPass.enabled && s_Display != null)
             {
                 s_Display.GetRenderPass(xrPass.multipassId, out var renderPass);
@@ -323,7 +323,7 @@ namespace UnityEngine.Experimental.Rendering
 #endif
         }
 
-#if ENABLE_VR && ENABLE_XR_MODULE
+#if ENABLE_VR && ENABLE_XR_MODULE && (!WX_PERFORMANCE_MODE || WX_PREVIEW_SCENE_MODE)
         static bool CanUseSinglePass(Camera camera, XRDisplaySubsystem.XRRenderPass renderPass)
         {
             if (!singlePassAllowed)

@@ -18,7 +18,7 @@ namespace UnityEngine.Experimental.Rendering
         internal int cullingPassId;
         internal bool copyDepth;
 
-#if ENABLE_VR && ENABLE_XR_MODULE
+#if ENABLE_VR && ENABLE_XR_MODULE && (!WX_PERFORMANCE_MODE || WX_PREVIEW_SCENE_MODE)
         internal UnityEngine.XR.XRDisplaySubsystem.XRRenderPass xrSdkRenderPass;
 #endif
     }
@@ -69,7 +69,7 @@ namespace UnityEngine.Experimental.Rendering
         /// </summary>
         public bool enabled
         {
-#if ENABLE_VR && ENABLE_XR_MODULE
+#if ENABLE_VR && ENABLE_XR_MODULE && (!WX_PERFORMANCE_MODE || WX_PREVIEW_SCENE_MODE)
             get => viewCount > 0;
 #else
             get => false;
@@ -81,7 +81,7 @@ namespace UnityEngine.Experimental.Rendering
         /// </summary>
         public bool supportsFoveatedRendering
         {
-#if ENABLE_VR && ENABLE_XR_MODULE
+#if ENABLE_VR && ENABLE_XR_MODULE && (!WX_PERFORMANCE_MODE || WX_PREVIEW_SCENE_MODE)
             get => enabled && foveatedRenderingInfo != IntPtr.Zero && XRSystem.foveatedRenderingCaps != FoveatedRenderingCaps.None;
 #else
             get => false;
