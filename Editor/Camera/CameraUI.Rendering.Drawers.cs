@@ -13,6 +13,9 @@ namespace UnityEditor.Rendering
             public static void Drawer_Rendering_StopNaNs(ISerializedCamera p, Editor owner)
             {
                 EditorGUILayout.PropertyField(p.stopNaNs, Styles.stopNaNs);
+#if (WX_PERFORMANCE_MODE || !WX_PREVIEW_SCENE_MODE)
+                p.stopNaNs.boolValue = false;
+#endif
             }
 
             /// <summary>Draws Dithering related fields on the inspector</summary>
@@ -21,6 +24,9 @@ namespace UnityEditor.Rendering
             public static void Drawer_Rendering_Dithering(ISerializedCamera p, Editor owner)
             {
                 EditorGUILayout.PropertyField(p.dithering, Styles.dithering);
+#if (WX_PERFORMANCE_MODE || !WX_PREVIEW_SCENE_MODE)
+                p.dithering.boolValue = false;
+#endif
             }
 
             /// <summary>Draws Culling mask related fields on the inspector</summary>
